@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="primaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="760.0" style="-fx-background-color: #FFFFE0#FFFFE0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginInterface">
+<AnchorPane fx:id="primaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="760.0" style="-fx-background-color: #FFFFE0#FFFFE0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginInterface">
    <children>
       <Separator fx:id="separator" layoutY="190.0" orientation="VERTICAL" prefHeight="352.0" prefWidth="760.0" />
       <Label fx:id="logLablel" layoutX="179.0" layoutY="191.0" text="Log In" AnchorPane.topAnchor="191.0" />
