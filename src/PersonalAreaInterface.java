@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 
 public class PersonalAreaInterface {
 
@@ -75,28 +76,50 @@ public class PersonalAreaInterface {
 
     @FXML
     private Label emailLabel;
-    
+
     @FXML
     private Label outcomeLabel;
-    
+
+    @FXML
+    private Label ageLabel;
+
+    @FXML
+    private Button updateAgeButton;
+
+    @FXML
+    private Button suggestedNomadButton;
+
+    @FXML
+    private TextField ageField;
+
     private NomadAdvisor nomadAdvisor;
 
     @FXML
-    // Comes back to the city interface
+        // Comes back to the city interface
     void comeBack(ActionEvent event) {
-    	clearAll();
-    	nomadAdvisor.changeScene("cityInterface");
+        clearAll();
+        nomadAdvisor.changeScene("cityInterface");
     }
 
     @FXML
-    // Logout and returns to login interface
+    void updateAge(ActionEvent event) {
+
+    }
+
+    @FXML
+    void suggestedNomad(ActionEvent event) {
+
+    }
+
+    @FXML
+        // Logout and returns to login interface
     void logout(ActionEvent event) {
-    	clearAll();
-    	nomadAdvisor.changeScene("loginInterface");
+        clearAll();
+        nomadAdvisor.changeScene("loginInterface");
     }
 
     @FXML
-    // Saves the preferences added from the customer
+        // Saves the preferences added from the customer
     void savePreferences(ActionEvent event) {
     	List<String> preferences = this.getPreferences();
     	Customer customer = (Customer) nomadAdvisor.getUser();
