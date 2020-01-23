@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="730.0" style="-fx-background-color: #ffebcc;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EmployeeInterface">
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="730.0" style="-fx-background-color: #ffebcc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EmployeeInterface">
    <children>
       <ImageView fx:id="logo" fitHeight="118.0" fitWidth="130.0" layoutX="155.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -28,23 +28,26 @@
          <children>
             <ComboBox fx:id="chooseView" layoutX="34.0" layoutY="14.0" onAction="#changeView" prefWidth="150.0" promptText="Customer View" />
             <Button fx:id="statButton" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" onAction="#showStatistics" prefHeight="25.0" prefWidth="106.0" text="Show Statistics" />
-            <VBox fx:id="cityPanel" alignment="TOP_CENTER" layoutX="34.0" layoutY="61.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="316.0" visible="false">
+            <VBox fx:id="cityPanel" alignment="TOP_CENTER" layoutX="34.0" layoutY="61.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="332.0" visible="false">
                <children>
                   <Label fx:id="cityTitle" contentDisplay="CENTER" text="Cities List">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="cityTable" prefHeight="306.0" prefWidth="292.0">
+                  <TableView fx:id="cityTable" prefHeight="306.0" prefWidth="338.0">
                      <columns>
-                        <TableColumn fx:id="cityNameCol" prefWidth="77.0" text="Name" />
-                        <TableColumn fx:id="cityCountryCol" prefWidth="102.0" text="Country" />
-                        <TableColumn fx:id="cityCharCol" prefWidth="136.0" text="Characteristics" />
+                        <TableColumn fx:id="cityNameCol" prefWidth="88.0" text="Name" />
+                        <TableColumn fx:id="cityCountryCol" prefWidth="104.0" text="Country" />
+                        <TableColumn fx:id="cityCharCol" prefWidth="139.0" text="Characteristics" />
                      </columns>
                   </TableView>
                   <HBox fx:id="bottomPanel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="322.0">
                      <children>
-                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchCity" prefHeight="25.0" prefWidth="78.0" text="SEARCH" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchCity" prefHeight="27.0" prefWidth="80.0" text="SEARCH">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Button>
                         <TextField fx:id="cityNameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="98.0" promptText="city Name" HBox.hgrow="ALWAYS" />
                         <HBox fx:id="buttonBox" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="144.0" spacing="10.0">
                            <children>
@@ -54,7 +57,7 @@
                         </HBox>
                      </children>
                      <padding>
-                        <Insets left="10.0" right="10.0" />
+                        <Insets left="2.0" right="2.0" />
                      </padding>
                   </HBox>
                </children>

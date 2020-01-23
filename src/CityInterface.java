@@ -299,6 +299,7 @@ public class CityInterface {
     	for(int i = 0; i<cb.length; i++) {
     		cb[i].setValue("");
     	}
+    	temperatureBox.setValue("");
     	hotelButton.setDisable(true);
     }
     

@@ -79,7 +79,7 @@ public class NomadAdvisor extends Application {
 	    this.stage.show();
     }
 
-    public void changeScene(String newScene) { //per ora solo login-interface
+    public void changeScene(String newScene) {
         switch (newScene) {
             case "loginInterface":
                 this.stage.setScene(loginScene);
