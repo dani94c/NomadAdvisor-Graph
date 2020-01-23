@@ -6,6 +6,9 @@ import javafx.scene.layout.AnchorPane;
 
 public class SuggestedNomadsInterface {
 
+    private NomadAdvisor nomadAdvisor;
+    private Customer loggedCustomer;
+
     @FXML
     private AnchorPane titleBox;
 
@@ -21,4 +24,13 @@ public class SuggestedNomadsInterface {
     @FXML
     private TableColumn<?, ?> emailColumn;
 
+    public void setNomadAdvisor(NomadAdvisor nomadAdvisor) {
+        this.nomadAdvisor = nomadAdvisor;
+    }
+
+    public void initInterface() {
+        loggedCustomer = (Customer) nomadAdvisor.getUser();
+        System.out.println("UTENTE LOGGATO: " + loggedCustomer.getName()); //DEBUG
+        //Popolazione della tabella
+    }
 }
