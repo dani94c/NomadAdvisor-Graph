@@ -14,7 +14,7 @@
 <AnchorPane fx:id="primaryPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="677.0" prefWidth="949.0" style="-fx-background-color: #d8eff3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HotelInterface">
    <children>
       <Button fx:id="logoutButton" layoutX="842.0" layoutY="15.0" mnemonicParsing="false" onAction="#logoutSelected" text="Logout" />
-      <Button fx:id="personalAreaButton" layoutX="724.0" layoutY="15.0" mnemonicParsing="false" onAction="#personalAreaSelected" text="Personal Area" />
+      <Button fx:id="personalAreaButton" layoutX="753.0" layoutY="15.0" mnemonicParsing="false" onAction="#personalAreaSelected" text="My Profile" />
       <Button fx:id="backButton" layoutX="27.0" layoutY="15.0" mnemonicParsing="false" onAction="#backSelected" text="&lt; Back" />
       <TableView fx:id="hotelTable" layoutX="55.0" layoutY="179.0" prefHeight="395.0" prefWidth="383.0">
         <columns>

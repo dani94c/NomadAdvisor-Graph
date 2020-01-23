@@ -27,7 +27,6 @@ public class NomadAdvisor extends Application {
     private FXMLLoader fxmlLoaderCity;
     private FXMLLoader fxmlLoaderPersonalArea;
     private FXMLLoader fxmlLoaderEmployee;
-    private NomadHandler nomadHandler;
     private Scene loginScene;
     private Scene personalAreaScene;
     private Scene cityScene;
@@ -36,13 +35,9 @@ public class NomadAdvisor extends Application {
     private User loggedUser;
     private City selectedCity;
 
-    public NomadHandler getNomadHandler() {
-        return nomadHandler;
-    }
-
+    
     public void start(Stage stage) {
     	NomadHandler.openConnection();
-        nomadHandler = new NomadHandler();
         this.stage = stage;
         this.stage.setTitle("Nomad Advisor");
         try {
@@ -84,7 +79,7 @@ public class NomadAdvisor extends Application {
 	    this.stage.show();
     }
 
-    public void changeScene(String newScene) { //per ora solo login-interface
+    public void changeScene(String newScene) {
         switch (newScene) {
             case "loginInterface":
                 this.stage.setScene(loginScene);
@@ -102,8 +97,9 @@ public class NomadAdvisor extends Application {
             	this.stage.setScene(hotelScene);
             	break;
             case "employeeInterface":
-            	employeeInterface.init_interface();
+            	employeeInterface.initInterface();
             	this.stage.setScene(employeeScene);
+            	employeeInterface.setParentStage(stage);
             	break;
             default:
                 System.out.println("Not Implemented");

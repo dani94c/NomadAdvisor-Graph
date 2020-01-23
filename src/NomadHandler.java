@@ -38,14 +38,15 @@ public class NomadHandler {
         return "You didn't complete the registration fields";
 	}
 	
-	// Retrieve all the registered users for the Employee Interface
+	// Retrieves all the registered customers for the Employee Interface
 	public static List<Customer> getCustomers(){
 		return MongoDBHandle.selectCustomers();
 	}
 	
+	// Calls the database handler in order to insert a new City and returns a notification message to the interface
 	public static String createCity(City addedCity) {
 		if(addedCity != null) {
-			//Check if all the text fields have been correctly inserted from the Employee
+			//Check if all the text fields have been correctly inserted by the Employee
 			if(addedCity.getCityName().equals("") == false && addedCity.getCountryName().equals("") == false) {
 				int result = MongoDBHandle.createCity(addedCity);
 				switch(result) {
@@ -62,6 +63,28 @@ public class NomadHandler {
         return "You didn't complete the city fields";
 	}
 	
+	// Updates characteristics of an existing city and returns a notification message to the interface
+	public static String updateCity(City updatingCity) {
+		if(updatingCity != null) {
+			//Check if all the text fields have been correctly inserted by the Employee
+			if(updatingCity.getCityName().equals("") == false && updatingCity.getCountryName().equals("") == false 
+					&& updatingCity.getHashedCharacteristics().isEmpty() == false) {
+				int result = MongoDBHandle.updateCity(updatingCity);
+				switch(result) {
+				case 0:
+					return "Success!";
+				case 1:
+					return "City update operation failed: there's nothing to change!";
+				case 2:
+					return "City update operation failed: The city does not exists!";
+				}
+			}
+		}
+		System.out.println("The city fields are not correctly inserted");
+        return "You didn't complete the city fields";
+	}
+	
+	// Calls the database handler in order to delete a City and returns a notification message to the interface
 	public static String deleteCity(City selectedCity) {
 		if(selectedCity != null) {
 			boolean result = MongoDBHandle.deleteCity(selectedCity);
@@ -71,6 +94,7 @@ public class NomadHandler {
 		return "Oops! Something went wrong. Try again later!";
 	}
 	
+	// Calls the database handler in order to delete a Hotel and returns a notification message to the interface
 	public static String deleteHotel(Hotel hotel) {
 		if(hotel != null) {
 			boolean result = MongoDBHandle.deleteHotel(hotel.getHotelName(),hotel.getCityName(),hotel.getCountryName());
