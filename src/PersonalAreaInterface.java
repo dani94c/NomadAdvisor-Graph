@@ -24,7 +24,7 @@ public class PersonalAreaInterface {
     private Label nameLabel;
 
     @FXML
-    private Label titleLebel;
+    private Label titleLabel;
 
     @FXML
     private Label surnameLabel;

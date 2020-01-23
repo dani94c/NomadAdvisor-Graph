@@ -25,11 +25,11 @@
                   <Font size="14.0"/>
               </font>
           </Label>
-            <Label fx:id="titleLebel" layoutX="311.0" layoutY="157.0" text="Personal Area">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
+          <Label fx:id="titleLabel" layoutX="311.0" layoutY="157.0" text="Personal Area">
+              <font>
+                  <Font size="24.0"/>
+              </font>
+          </Label>
           <Label fx:id="surnameLabel" layoutX="191.0" layoutY="237.0" text="Surname: ">
               <font>
                   <Font size="14.0"/>
@@ -40,13 +40,15 @@
                   <Font size="14.0"/>
               </font>
           </Label>
-            <Separator fx:id="upperSeparator" layoutY="205.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0" prefWidth="760.0" />
-            <Label fx:id="preferencesLabel" layoutX="75.0" layoutY="310.0" text="Select your preferences:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Separator fx:id="lowerSeparator" layoutY="282.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0" prefWidth="760.0" />
+          <Separator fx:id="upperSeparator" layoutY="205.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0"
+                     prefWidth="760.0"/>
+          <Label fx:id="preferencesLabel" layoutX="75.0" layoutY="310.0" text="Select your preferences:">
+              <font>
+                  <Font size="18.0"/>
+              </font>
+          </Label>
+          <Separator fx:id="lowerSeparator" layoutY="282.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0"
+                     prefWidth="760.0"/>
           <CheckBox fx:id="airCheckBox" layoutX="79.0" layoutY="384.0" mnemonicParsing="false" text="Air Quality"/>
           <CheckBox fx:id="qualityLifeCheckBox" layoutX="79.0" layoutY="415.0" mnemonicParsing="false"
                     text="Quality of life"/>
