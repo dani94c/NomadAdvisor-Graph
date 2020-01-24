@@ -165,7 +165,7 @@ public class NomadHandler {
 	public static List<HashMap<String, Integer>> computePieChartsData() {
 		List<HashMap<String, Integer>> pieChartsData = new ArrayList();
 		pieChartsData.add(MongoDBHandle.aggregateCitiesCharacteristics());
-		pieChartsData.add(MongoDBHandle.aggregateCustomersPreferences());
+		pieChartsData.add(Neo4jHandle.aggregateCustomersPreferences());
 		if((pieChartsData.get(0) == null) || (pieChartsData.get(1) == null))
 			return null;
 		return pieChartsData;
@@ -173,9 +173,11 @@ public class NomadHandler {
 	
 	public static void openConnection() {
 		MongoDBHandle.openConnection();
+		Neo4jHandle.openConnection();
 	}
 	
 	public static void closeConnection() {
 		MongoDBHandle.finish();
+		Neo4jHandle.finish();
 	}
 }
