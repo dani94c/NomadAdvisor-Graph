@@ -74,7 +74,7 @@ public class MongoDBHandle {
 				msg.append("Success!");
 				if(document.getString("role").equals("customer"))	// customer
 	    			return customer = new Customer(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword(), 
-	    					document.getString("username"), (List<String>) document.get("preferences"));
+	    					document.getString("username"),0, (List<String>) document.get("preferences"));
 	    		else // employee
 	    			return employee = new Employee(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword());
 			}
@@ -303,7 +303,7 @@ public class MongoDBHandle {
     			String name = document.getString("name")==null?"":document.getString("name");
     			String surname = document.getString("surname")==null?"":document.getString("surname");
                 Customer c = new Customer(name, surname, document.getString("email"), document.getString("password"), 
-    					document.getString("username"), (List<String>) document.get("preferences"));
+    					document.getString("username"),0, (List<String>) document.get("preferences"));
                 customers.add(c);
     		}
     	}catch(Exception ex) {
