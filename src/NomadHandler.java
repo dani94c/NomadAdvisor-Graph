@@ -171,6 +171,7 @@ public class NomadHandler {
 		List<HashMap<String, Integer>> pieChartsData = new ArrayList();
 		pieChartsData.add(MongoDBHandle.aggregateCitiesCharacteristics());
 		pieChartsData.add(Neo4jHandle.aggregateCustomersPreferences());
+		pieChartsData.add(Neo4jHandle.getAverageAgeCharacteristics());
 		if((pieChartsData.get(0) == null) || (pieChartsData.get(1) == null))
 			return null;
 		return pieChartsData;
