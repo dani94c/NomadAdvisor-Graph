@@ -38,6 +38,7 @@ public class NomadAdvisor extends Application {
     
     public void start(Stage stage) {
     	NomadHandler.openConnection();
+    	Neo4jHandle.openConnection();
         this.stage = stage;
         this.stage.setTitle("Nomad Advisor");
         try {

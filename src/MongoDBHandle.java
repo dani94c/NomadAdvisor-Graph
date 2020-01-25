@@ -74,7 +74,7 @@ public class MongoDBHandle {
 				msg.append("Success!");
 				if(document.getString("role").equals("customer"))	// customer
 	    			return customer = new Customer(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword(), 
-	    					document.getString("username"),0, (List<String>) document.get("preferences"));
+	    					document.getString("username"),0, null);
 	    		else // employee
 	    			return employee = new Employee(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword());
 			}
@@ -158,15 +158,15 @@ public class MongoDBHandle {
     		} else
     			filters.add(Filters.gte(entry.getKey(),entry.getValue()));	// all the other filters
     	}
-    	
     	// Show the first 30 cities
     	MongoCursor<Document> cursor = cityCollection.find(Filters.and(filters)).limit(30).iterator();
     	try {
     		while(cursor.hasNext()) {
     			 Document dc = cursor.next();
     			 City city= buildCity(dc);
-    			 if( city != null)
+    			 if( city != null) {
     				 cities.add(city);
+    			 }
     		}
     	}catch(Exception ex) {
     		System.out.println("Error: "+ex);

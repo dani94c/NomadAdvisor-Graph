@@ -17,6 +17,9 @@ public class StatisticsInterface {
     private PieChart customerPieChart;
     
     @FXML
+    private PieChart averageAgePieChart;
+    
+    @FXML
     private Label outcomeLabel;
     
     // Creates the slices of the pie chart using the key of the map as label and the value of the map as value of the slice

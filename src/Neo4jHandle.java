@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.neo4j.driver.v1.Driver;
@@ -39,10 +41,41 @@ public class Neo4jHandle {
         return result;
     }
     
+    // Get the preferences of a specific Customer
+ 	public static List<String> getPreferences(String email) {
+ 		try(Session session = driver.session()) {
+ 			return session.readTransaction(new TransactionWork<List<String>>() {
+ 				@Override
+ 				public List<String> execute(Transaction tx) {
+ 					return matchPreferenceNodes(tx,email);
+ 				}
+ 			});
+ 		}
+ 		/*
+ 		 * MATCH (c:Customer {email:"e.petrangeli@gmail.com"})-[:Likes]->(Preference) RETURN Preference.type
+ 		 * preferences: [temperature, nightlife, walkability]
+ 		 */
+ 	}
+ 	
+ 	// return the list of preferences
+ 	private static List<String> matchPreferenceNodes(Transaction tx, String email) {
+ 		List<String> pref = new ArrayList<String>();
+ 		StatementResult result = tx.run("MATCH (c:Customer {email:$email})-[:LIKES]->(Preference) RETURN Preference.type",parameters("email",email));
+ 		while(result.hasNext()) {
+ 			pref.add(result.next().get(0).asString());
+ 		}
+ 		return pref;
+ 	}
+    
     public static void finish() {
     	if(driver != null) {
     		driver.close();
     		System.out.println("Closed connection with the Neo4j DB");
     	}
     }
+    /*
+    public static void main(String[] args) {
+
+    }
+    */
 }

@@ -92,7 +92,7 @@ public class Utils {
     
     // Print the user's fields
     public static void printUser(User user) {
-    	System.out.print(user.getRole()+":"+" name:"+user.getName()+" surname: "+"email:"+user.getEmail()+" pwd:"+user.getPassword());
+    	System.out.print(user.getRole()+":"+" name:"+user.getName()+" surname: "+user.getSurname()+"email:"+user.getEmail()+" pwd:"+user.getPassword());
     	if(user.getRole().contentEquals("customer")) {
     		Customer customer = (Customer) user;
     		System.out.println(" username:"+customer.getUsername()+" preferences: "+customer.getPreferences()); 
