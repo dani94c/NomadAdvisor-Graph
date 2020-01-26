@@ -9,16 +9,24 @@ import org.neo4j.driver.v1.TransactionWork;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class Neo4jHandle {
-	private static Driver driver;
-	
-	public static void openConnection() {
-		driver = DBConnection.getInstance().driver;
-	}
-	
-	// Transaction execution to find the number of customers that likes a certain preference
+    private static Driver driver;
+
+    public static void openConnection() {
+        driver = DBConnection.getInstance().driver;
+    }
+
+    public static void updateCustomerAge(Customer customer) {
+        try (Session session = driver.session()) {
+            session.run("MATCH (c:Customer)\n" +
+                    "WHERE c.email = $email\n" +
+                    "SET c.age = $age", parameters("email", customer.getEmail(), "age", customer.getAge()));
+        }
+    }
+
+    // Transaction execution to find the number of customers that likes a certain preference
     private static int countCustomersPreference(Transaction tx, String preference) {
         StatementResult result = tx.run("MATCH (p:Preference {type: $type})<-[l:LIKES]-() RETURN COUNT(l)",
-        		parameters("type", preference));
+                parameters("type", preference));
         return result.single().get(0).asInt();
     }
 

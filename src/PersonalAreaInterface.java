@@ -88,7 +88,12 @@ public class PersonalAreaInterface {
 
     @FXML
     void updateAge(ActionEvent event) {
-
+        Customer customer = (Customer) nomadAdvisor.getUser();
+        if (ageField.getText().equals(""))
+            outcomeLabel.setText("You have to insert an age value in order to update it");
+        else if (ageField.getText().matches("^(?:1[01][0-9]|120|1[0-9]|[2-9][0-9])$") && (Integer.parseInt(ageField.getText()) != customer.getAge())) {
+            outcomeLabel.setText(NomadHandler.updateAge(customer, Integer.parseInt(ageField.getText())));
+        }
     }
 
     @FXML
@@ -98,7 +103,7 @@ public class PersonalAreaInterface {
         suggNomads.initInterface();
         popupStage.initOwner(parentPersonalAreaStage);
         popupStage.setOnCloseRequest((WindowEvent we) -> { //se serve
-            System.out.println("CHIUSA FINESTRA");  //DEBUG
+            System.out.println("CHIUSA FINESTRA");  //TODO
         });
         popupStage.show();
     }
@@ -144,21 +149,35 @@ public class PersonalAreaInterface {
 
     // Sets the email label with the email of the logged user
     private void setEmailLabel(String email) {
-        if(email == null)
+        if (email == null)
             emailLabel.setText("Email: not available");
         else
             emailLabel.setText("Email: " + email);
     }
 
+    private void setAgeLabel(int age) {
+        if (age == 0) {
+            outcomeLabel.setText("The age attribute is not available, please insert your age now");
+            ageField.setText("");
+        } else
+            ageField.setText(String.valueOf(age));
+    }
+
     // Select the checkbox fields depending on the preferences of the logged customer
     private void setPreferences(List<String> preferences) {
-        if(preferences != null) {
-            if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.TEMPERATURE))) tempCheckBox.setSelected(true);
-            if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.AIR_QUALITY))) airCheckBox.setSelected(true);
-            if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.QUALITY_LIFE))) qualityLifeCheckBox.setSelected(true);
-            if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.FOREIGNERS))) foreignersCheckBox.setSelected(true);
-            if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.HEALTHCARE))) healthcareCheckBox.setSelected(true);
-            if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.NIGHTLIFE))) nightlifeCheckBox.setSelected(true);
+        if (preferences != null) {
+            if (preferences.contains(Utils.cityAttributes.get(Utils.cityNames.TEMPERATURE)))
+                tempCheckBox.setSelected(true);
+            if (preferences.contains(Utils.cityAttributes.get(Utils.cityNames.AIR_QUALITY)))
+                airCheckBox.setSelected(true);
+            if (preferences.contains(Utils.cityAttributes.get(Utils.cityNames.QUALITY_LIFE)))
+                qualityLifeCheckBox.setSelected(true);
+            if (preferences.contains(Utils.cityAttributes.get(Utils.cityNames.FOREIGNERS)))
+                foreignersCheckBox.setSelected(true);
+            if (preferences.contains(Utils.cityAttributes.get(Utils.cityNames.HEALTHCARE)))
+                healthcareCheckBox.setSelected(true);
+            if (preferences.contains(Utils.cityAttributes.get(Utils.cityNames.NIGHTLIFE)))
+                nightlifeCheckBox.setSelected(true);
             if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.COST))) costCheckBox.setSelected(true);
             if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.SAFETY))) safetyCheckBox.setSelected(true);
             if(preferences.contains(Utils.cityAttributes.get(Utils.cityNames.WALKABILITY))) walkabilityCheckBox.setSelected(true);
@@ -207,6 +226,7 @@ public class PersonalAreaInterface {
             this.setNameLabel(customer.getName());
             this.setSurnameLabel(customer.getSurname());
             this.setEmailLabel(customer.getEmail());
+            this.setAgeLabel(customer.getAge());
             this.setPreferences(customer.getPreferences());
         }
 

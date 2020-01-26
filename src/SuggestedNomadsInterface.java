@@ -31,6 +31,6 @@ public class SuggestedNomadsInterface {
     public void initInterface() {
         loggedCustomer = (Customer) nomadAdvisor.getUser();
         System.out.println("UTENTE LOGGATO: " + loggedCustomer.getName()); //DEBUG
-        //Popolazione della tabella
+        //TODO Popolazione della tabella
     }
 }

@@ -66,7 +66,7 @@
                     text="English speaking"/>
           <Button fx:id="saveButton" layoutX="669.0" layoutY="487.0" mnemonicParsing="false" onAction="#savePreferences"
                   prefHeight="27.0" prefWidth="59.0" text="Save" AnchorPane.leftAnchor="669.0"/>
-          <Label fx:id="emailLabel" layoutX="363.0" layoutY="238.0" text="Email: "/>
+          <Label fx:id="emailLabel" layoutX="350.0" layoutY="238.0" text="Email: "/>
           <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="281.0" layoutY="29.0" pickOnBounds="true"
                      preserveRatio="true">
               <image>
@@ -78,12 +78,12 @@
                   <Label fx:id="outcomeLabel" text="There's nothing to change" textFill="#045491"/>
               </children>
           </HBox>
-          <Label fx:id="ageLabel" layoutX="586.0" layoutY="238.0" text="Age: "/>
+          <Label fx:id="ageLabel" layoutX="573.0" layoutY="238.0" text="Age: "/>
           <Button fx:id="updateAgeButton" layoutX="657.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateAge"
                   text="Update Age"/>
           <Button fx:id="suggestedNomadButton" layoutX="477.0" layoutY="308.0" mnemonicParsing="false"
                   onAction="#suggestedNomad" text="Suggested Nomads"/>
-          <TextField fx:id="ageField" layoutX="614.0" layoutY="233.0" prefHeight="27.0" prefWidth="36.0"/>
+          <TextField fx:id="ageField" layoutX="601.0" layoutY="233.0" prefHeight="27.0" prefWidth="49.0"/>
       </children>
     </AnchorPane>
   </children>
