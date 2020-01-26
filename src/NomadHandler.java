@@ -9,6 +9,11 @@ public class NomadHandler {
 		if(user!=null) {
 			if(user.getEmail().equals("") == false && user.getPassword() != null) {
 				user = MongoDBHandle.readUser(user, msg);
+				// if the user is a Customer -> retrieve the preferences from the graph DB
+				if(user!= null && user.getRole().equals("customer")) {
+					((Customer)user).setPreferences(Neo4jHandle.getPreferences(user.getEmail()));
+					Utils.printUser(user);
+				}
 				return user;
 			}
 		}
@@ -165,7 +170,8 @@ public class NomadHandler {
 	public static List<HashMap<String, Integer>> computePieChartsData() {
 		List<HashMap<String, Integer>> pieChartsData = new ArrayList();
 		pieChartsData.add(MongoDBHandle.aggregateCitiesCharacteristics());
-		pieChartsData.add(MongoDBHandle.aggregateCustomersPreferences());
+		pieChartsData.add(Neo4jHandle.aggregateCustomersPreferences());
+		pieChartsData.add(Neo4jHandle.getAverageAgeCharacteristics());
 		if((pieChartsData.get(0) == null) || (pieChartsData.get(1) == null))
 			return null;
 		return pieChartsData;
@@ -173,9 +179,11 @@ public class NomadHandler {
 	
 	public static void openConnection() {
 		MongoDBHandle.openConnection();
+		Neo4jHandle.openConnection();
 	}
 	
 	public static void closeConnection() {
 		MongoDBHandle.finish();
+		Neo4jHandle.finish();
 	}
 }
