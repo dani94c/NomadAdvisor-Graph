@@ -64,7 +64,7 @@ public class LoginInterface {
     @FXML void registration(ActionEvent event) {
     	// takes values from the reg form
     	Customer customer = new Customer(nameField.getText().trim(), surnameField.getText().trim(), 
-    			emailRegField.getText().trim(), Utils.cryptPwd(pwdRegField.getText()),usernameField.getText().trim(),null);
+    			emailRegField.getText().trim(), Utils.cryptPwd(pwdRegField.getText()),usernameField.getText().trim(),0,null);
     	System.out.println("Registration form fields:"+" name: "+ nameField.getText().trim()+" surname: "+
     			surnameField.getText().trim()+" email: "+emailRegField.getText().trim() +
     			 " pwd crypt: "+Utils.cryptPwd(pwdRegField.getText())+" pwd: "+pwdRegField.getText()+" username: "+usernameField.getText().trim());
