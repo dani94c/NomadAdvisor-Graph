@@ -35,35 +35,42 @@ public class NomadHandler {
 						return "Ooops, something went wrong. Please, try again later";
 				}
 			}
-		}
-		System.out.println("The registration fields are not correctly inserted");
-		return "You didn't complete the registration fields";
-	}
+        }
+        System.out.println("The registration fields are not correctly inserted");
+        return "You didn't complete the registration fields";
+    }
 
-	// Retrieves all the registered customers for the Employee Interface
-	public static List<Customer> getCustomers() {
-		return MongoDBHandle.selectCustomers();
-	}
+    // Retrieves all the registered customers for the Employee Interface
+    public static List<Customer> getCustomers() {
+        return MongoDBHandle.selectCustomers();
+    }
 
-	//Updates the age of the customer
-	public static String updateAge(Customer customer, int age) {
-		customer.setAge(age);
-		if (MongoDBHandle.updateCustomerAge(customer) != 2) {
-			Neo4jHandle.updateCustomerAge(customer);
-			return "Age updated correctly";
-		}
-		return "Ooops, something went wrong in updating the Age. Please, try again later";
-	}
+    // Updates the age of the customer - update the value both in MongoDB and Neo4j databases
+    public static String updateAge(Customer customer, int age) {
+        int oldAge = customer.getAge();
+        customer.setAge(age);
+        if (MongoDBHandle.updateCustomerAge(customer) != 1) {
+            Neo4jHandle.updateCustomerAge(customer);
+            return "Age updated correctly";
+        }
+        customer.setAge(oldAge);
+        return "Ooops, something went wrong in updating the Age. Please, try again later";
+    }
 
-	// Calls the database handler in order to insert a new City and returns a notification message to the interface
-	public static String createCity(City addedCity) {
-		if (addedCity != null) {
-			//Check if all the text fields have been correctly inserted by the Employee
-			if (addedCity.getCityName().equals("") == false && addedCity.getCountryName().equals("") == false) {
-				int result = MongoDBHandle.createCity(addedCity);
-				switch (result) {
-					case 0:
-						return "Success!";
+    // Calls the database handler in order to retrieve the suggested Customers based on the preferences
+    public static List<Customer> SuggestedCustomers(Customer customer) {
+        return Neo4jHandle.retrieveSuggestedCustomers(customer);
+    }
+
+    // Calls the database handler in order to insert a new City and returns a notification message to the interface
+    public static String createCity(City addedCity) {
+        if (addedCity != null) {
+            //Check if all the text fields have been correctly inserted by the Employee
+            if (addedCity.getCityName().equals("") == false && addedCity.getCountryName().equals("") == false) {
+                int result = MongoDBHandle.createCity(addedCity);
+                switch (result) {
+                    case 0:
+                        return "Success!";
 					case 1:
 						return "The city already exists. Data have been updated!";
 					case 2:

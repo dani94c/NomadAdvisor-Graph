@@ -313,12 +313,16 @@ public class MongoDBHandle {
 		return customers;
 	}
 
+	/* Updates the Age attribute of the customer in the database
+	 *	0 -> Update operation successful
+	 *	1 -> Update operation failed
+	 */
 	public static int updateCustomerAge(Customer customer) {
 		Document updatedField = new Document("age", customer.getAge());
 		UpdateResult result = userCollection.updateOne(Filters.eq("email", customer.getEmail()), new Document("$set", updatedField));
 		if (result.getModifiedCount() == 0) {
 			System.out.println("Customer update operation failed");
-			return 2;
+			return 1;
 		}
 		return 0;
 	}

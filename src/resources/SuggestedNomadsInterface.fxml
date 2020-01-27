@@ -38,8 +38,9 @@
       </AnchorPane>
       <TableView fx:id="tableNomads" prefHeight="381.0" prefWidth="373.0">
          <columns>
-            <TableColumn fx:id="usernameColumn" prefWidth="187.0" text="Username"/>
-            <TableColumn fx:id="emailColumn" minWidth="0.0" prefWidth="185.0" text="Email"/>
+            <TableColumn fx:id="usernameColumn" prefWidth="94.0" text="Username"/>
+            <TableColumn fx:id="emailColumn" minWidth="0.0" prefWidth="135.0" text="Email"/>
+            <TableColumn fx:id="preferencesColumn" prefWidth="125.0" text="Comm.Pref"/>
          </columns>
       </TableView>
    </children>

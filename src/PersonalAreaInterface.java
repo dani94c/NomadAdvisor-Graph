@@ -87,6 +87,7 @@ public class PersonalAreaInterface {
     }
 
     @FXML
+        // Update button pressed, the age attribute of the customer is updated in the database
     void updateAge(ActionEvent event) {
         Customer customer = (Customer) nomadAdvisor.getUser();
         if (ageField.getText().equals(""))
@@ -97,14 +98,16 @@ public class PersonalAreaInterface {
     }
 
     @FXML
+        // The SuggestedNomad popup will be showed, the interface stage is initialized
     void suggestedNomad(ActionEvent event) {
         Stage popupStage = new Stage();
         popupStage.setScene(suggNomadsScene);
         suggNomads.initInterface();
         popupStage.initOwner(parentPersonalAreaStage);
-        popupStage.setOnCloseRequest((WindowEvent we) -> { //se serve
-            System.out.println("CHIUSA FINESTRA");  //TODO
+        /*
+        popupStage.setOnCloseRequest((WindowEvent we) -> {
         });
+        */
         popupStage.show();
     }
 

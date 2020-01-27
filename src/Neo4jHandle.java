@@ -1,11 +1,10 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.neo4j.driver.v1.Driver;
-import org.neo4j.driver.v1.Session;
-import org.neo4j.driver.v1.StatementResult;
-import org.neo4j.driver.v1.Transaction;
-import org.neo4j.driver.v1.TransactionWork;
+import org.neo4j.driver.v1.*;
+
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class Neo4jHandle {
@@ -15,11 +14,37 @@ public class Neo4jHandle {
         driver = DBConnection.getInstance().driver;
     }
 
+    // Method in order to update the Age field of the customer in the graph database
     public static void updateCustomerAge(Customer customer) {
         try (Session session = driver.session()) {
             session.run("MATCH (c:Customer)\n" +
-                    "WHERE c.email = $email\n" +
-                    "SET c.age = $age", parameters("email", customer.getEmail(), "age", customer.getAge()));
+                    "WHERE c.email = $email AND c.username = $username\n" +
+                    "SET c.age = $age", parameters("email", customer.getEmail(), "username", customer.getUsername(), "age", customer.getAge()));
+        }
+    }
+
+    // Transaction method in order to retrieve the customers that have common preference of the passed customer
+    private static List<Customer> matchCustomers(Transaction tx, Customer customer) {
+        List<Customer> customersList = new ArrayList<Customer>();
+        StatementResult result = tx.run("MATCH (c:Customer)-[:LIKES]->(p:Preference)<-[:LIKES]-(n:Customer)\n" +
+                "WHERE c.email = $email AND c.username = $username\n" +
+                "RETURN n.email AS email, n.username AS username, collect(p.type) AS preferences, count(p.type) AS counter ORDER BY counter DESC", parameters("email", customer.getEmail(), "username", customer.getUsername()));
+        while (result.hasNext()) {
+            Record record = result.next();
+            customersList.add(new Customer(null, null, record.get("email").asString(), null, record.get("username").asString(), 0, record.get("preferences").asList(Values.ofString())));
+        }
+        return customersList;
+    }
+
+    //  Session method in order to retrieve the customers that have common preference of the passed customer
+    public static List<Customer> retrieveSuggestedCustomers(Customer customer) {
+        try (Session session = driver.session()) {
+            return session.readTransaction(new TransactionWork<List<Customer>>() {
+                @Override
+                public List<Customer> execute(Transaction tx) {
+                    return matchCustomers(tx, customer);
+                }
+            });
         }
     }
 
@@ -46,11 +71,11 @@ public class Neo4jHandle {
         }
         return result;
     }
-    
+
     public static void finish() {
-    	if(driver != null) {
-    		driver.close();
-    		System.out.println("Closed connection with the Neo4j DB");
-    	}
+        if(driver != null) {
+            driver.close();
+            System.out.println("Closed connection with the Neo4j DB");
+        }
     }
 }
