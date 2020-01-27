@@ -158,15 +158,15 @@ public class MongoDBHandle {
     		} else
     			filters.add(Filters.gte(entry.getKey(),entry.getValue()));	// all the other filters
     	}
-    	
     	// Show the first 30 cities
     	MongoCursor<Document> cursor = cityCollection.find(Filters.and(filters)).limit(30).iterator();
     	try {
     		while(cursor.hasNext()) {
     			 Document dc = cursor.next();
     			 City city= buildCity(dc);
-    			 if( city != null)
+    			 if( city != null) {
     				 cities.add(city);
+    			 }
     		}
     	}catch(Exception ex) {
     		System.out.println("Error: "+ex);

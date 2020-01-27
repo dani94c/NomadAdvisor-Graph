@@ -27,7 +27,7 @@
       <Pane fx:id="bodyPane" layoutY="109.0" prefHeight="454.0" prefWidth="730.0">
          <children>
             <ComboBox fx:id="chooseView" layoutX="34.0" layoutY="14.0" onAction="#changeView" prefWidth="150.0" promptText="Customer View" />
-            <Button fx:id="statButton" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" onAction="#showStatistics" prefHeight="25.0" prefWidth="106.0" text="Show Statistics" />
+            <Button fx:id="statButton" layoutX="578.0" layoutY="14.0" mnemonicParsing="false" onAction="#showStatistics" prefHeight="27.0" prefWidth="118.0" text="Show Statistics" />
             <VBox fx:id="cityPanel" alignment="TOP_CENTER" layoutX="34.0" layoutY="61.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="332.0" visible="false">
                <children>
                   <Label fx:id="cityTitle" contentDisplay="CENTER" text="Cities List">

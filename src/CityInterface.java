@@ -167,8 +167,8 @@ public class CityInterface {
     				pref.put("temp_greater", 25);
     			} else if(userPreferences.get(i).equals(Utils.cityAttributes.get(Utils.cityNames.COST)))
     				pref.put(Utils.cityAttributes.get(Utils.cityNames.COST), 2000);
-    			else
-    				pref.put(userPreferences.get(i), 3);
+    			else 
+    				pref.put(userPreferences.get(i), 3);    			
     		}
     		cities = NomadHandler.getCity(pref);
     	} else {
