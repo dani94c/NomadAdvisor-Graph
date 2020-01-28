@@ -32,12 +32,13 @@ public class NomadHandler {
 					customer.getPassword().equals("") == false) {
 				int result = MongoDBHandle.createCustomer(customer);
 				switch(result) {
-					case 0:
-						return "Success!";
-					case 1:
-						return "email or username already exists";
-					default:
-						return "Ooops, something went wrong. Please, try again later";
+				case 0:
+					Neo4jHandle.addCustomer(customer);
+					return "Success!";
+				case 1:
+					return "email or username already exists";
+				default:
+					return "Ooops, something went wrong. Please, try again later";
 				}
 			}
         }

@@ -1,19 +1,57 @@
+import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.neo4j.driver.v1.*;
-
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class Neo4jHandle {
+
     private static Driver driver;
 
     public static void openConnection() {
         driver = DBConnection.getInstance().driver;
     }
 
+    //Transaction execution to create a new customer
+	  private static Integer createCustomerNode(Transaction tx, Customer customer) {
+		tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
+				parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
+		System.out.println("Node added for customer's email: "+customer.getEmail());
+		return 1;
+	  }
+	
+    //Insert a a new registered customer in the graph
+    public static void addCustomer(Customer customer) {
+      try(Session session = driver.session()) {
+        session.writeTransaction(new TransactionWork<Integer>() {
+          @Override
+          public Integer execute(Transaction tx) {
+            return createCustomerNode(tx,customer);
+          }
+        });
+      }
+     }
+  
+    //Transaction execution to update the customer's preferences
+    private static Boolean updateLikes(Transaction tx, Customer customer) {
+      return false;
+    }
+
+    public static void updatePreferences(Customer customer ) {
+      try(Session session = driver.session()) {
+        session.writeTransaction(new TransactionWork<Boolean>() {
+          @Override
+          public Boolean execute(Transaction tx) {
+            return updateLikes(tx,customer);
+          }
+        });
+      }
+    }
+  
     // Method in order to update the Age field of the customer in the graph database
     public static void updateCustomerAge(Customer customer) {
         try (Session session = driver.session()) {
@@ -62,9 +100,7 @@ public class Neo4jHandle {
         	}
         }
         return result;
-    }
-    
- 	
+	
  	// Transaction execution to find the list of preferences of a customer
  	private static List<String> matchPreferenceNodes(Transaction tx, String email) {
  		List<String> pref = new ArrayList<String>();
