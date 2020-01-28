@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +12,7 @@ import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 import org.neo4j.driver.v1.Value;
 import org.neo4j.driver.v1.exceptions.NoSuchRecordException;
+import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
 
 import static org.neo4j.driver.v1.Values.parameters;
 
@@ -20,6 +23,42 @@ public class Neo4jHandle {
 		driver = DBConnection.getInstance().driver;
 	}
 	
+	
+	//Transaction execution to create a new customer
+	private static Integer createCustomerNode(Transaction tx, Customer customer) {
+		tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
+				parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
+		System.out.println("Node added for customer's email: "+customer.getEmail());
+		return 1;
+	}
+	
+	//Insert a a new registered customer in the graph
+	public static void addCustomer(Customer customer) {
+		try(Session session = driver.session()) {
+ 			session.writeTransaction(new TransactionWork<Integer>() {
+ 				@Override
+ 				public Integer execute(Transaction tx) {
+ 					return createCustomerNode(tx,customer);
+ 				}
+ 			});
+		}
+	 }
+	
+	//Transaction execution to update the customer's preferences
+	private static Boolean updateLikes(Transaction tx, Customer customer) {
+		return false;
+ 	}
+	
+	public static void updatePreferences(Customer customer ) {
+		try(Session session = driver.session()) {
+ 			session.writeTransaction(new TransactionWork<Boolean>() {
+ 				@Override
+ 				public Boolean execute(Transaction tx) {
+ 					return updateLikes(tx,customer);
+ 				}
+ 			});
+ 		}
+	}
 	// Transaction execution to find the number of customers that likes a certain preference
     private static int countCustomersPreference(Transaction tx, String preference) {
         StatementResult result = tx.run("MATCH (p:Preference {type: $type})<-[l:LIKES]-() RETURN COUNT(l)",

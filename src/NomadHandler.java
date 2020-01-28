@@ -31,6 +31,7 @@ public class NomadHandler {
 				int result = MongoDBHandle.createCustomer(customer);
 				switch(result) {
 				case 0:
+					Neo4jHandle.addCustomer(customer);
 					return "Success!";
 				case 1:
 					return "email or username already exists";
