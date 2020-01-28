@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,58 +16,74 @@
   <children>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="760.0" style="-fx-background-color: #d8eff3;" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="logoutButton" layoutX="649.0" layoutY="16.0" mnemonicParsing="false" onAction="#logout" prefHeight="27.0" prefWidth="70.0" text="Logout" AnchorPane.leftAnchor="649.0" />
+          <Button fx:id="logoutButton" layoutX="663.0" layoutY="17.0" mnemonicParsing="false" onAction="#logout"
+                  prefHeight="27.0" prefWidth="70.0" text="Logout" AnchorPane.leftAnchor="663.0"/>
             <Button fx:id="backButton" layoutX="49.0" layoutY="16.0" mnemonicParsing="false" onAction="#comeBack" prefHeight="27.0" prefWidth="63.0" text="&lt; Back" />
             <CheckBox fx:id="tempCheckBox" layoutX="79.0" layoutY="354.0" mnemonicParsing="false" text="Temperature" />
-            <Label fx:id="nameLabel" layoutX="49.0" layoutY="236.0" text="Name: ">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="titleLebel" layoutX="311.0" layoutY="157.0" text="Personal Area">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label fx:id="surnameLabel" layoutX="281.0" layoutY="237.0" text="Surname: ">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="usernameLabel" layoutX="531.0" layoutY="21.0" text="Username">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Separator fx:id="upperSeparator" layoutY="205.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0" prefWidth="760.0" />
-            <Label fx:id="preferencesLabel" layoutX="75.0" layoutY="310.0" text="Select your preferences:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Separator fx:id="lowerSeparator" layoutY="282.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0" prefWidth="760.0" />
-            <CheckBox fx:id="airCheckBox" layoutX="79.0" layoutY="384.0" mnemonicParsing="false" text="Air Quality" />
-            <CheckBox fx:id="qualityLifeCheckBox" layoutX="79.0" layoutY="415.0" mnemonicParsing="false" text="Quality of life" />
-            <CheckBox fx:id="foreignersCheckBox" layoutX="310.0" layoutY="354.0" mnemonicParsing="false" text="Friendly for foreigners" />
-            <CheckBox fx:id="healthcareCheckBox" layoutX="310.0" layoutY="384.0" mnemonicParsing="false" text="Healthcare" />
-            <CheckBox fx:id="nightlifeCheckBox" layoutX="310.0" layoutY="415.0" mnemonicParsing="false" text="Nightlife" />
-            <CheckBox fx:id="costCheckBox" layoutX="516.0" layoutY="354.0" mnemonicParsing="false" text="Cost" />
-            <CheckBox fx:id="safetyCheckBox" layoutX="516.0" layoutY="384.0" mnemonicParsing="false" text="Safety" />
-            <CheckBox fx:id="walkabilityCheckBox" layoutX="516.0" layoutY="415.0" mnemonicParsing="false" text="Walkability" />
-            <CheckBox fx:id="wifiCheckBox" layoutX="79.0" layoutY="446.0" mnemonicParsing="false" text="Free wi-fi" />
-            <CheckBox fx:id="englishCheckBox" layoutX="310.0" layoutY="446.0" mnemonicParsing="false" text="English speaking" />
-            <Button fx:id="saveButton" layoutX="645.0" layoutY="486.0" mnemonicParsing="false" onAction="#savePreferences" prefHeight="27.0" prefWidth="59.0" text="Save" AnchorPane.leftAnchor="649.0" />
-            <Label fx:id="emailLabel" layoutX="490.0" layoutY="237.0" text="Email: " />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="281.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/personalArea.png" />
-               </image>
-            </ImageView>
-            <HBox alignment="CENTER" layoutY="281.0" prefHeight="29.0" prefWidth="760.0">
-               <children>
-                  <Label fx:id="outcomeLabel" text="There's nothing to change" textFill="#045491" />
-               </children>
-            </HBox>
+          <Label fx:id="nameLabel" layoutX="28.0" layoutY="237.0" text="Name: ">
+              <font>
+                  <Font size="14.0"/>
+              </font>
+          </Label>
+          <Label fx:id="titleLabel" layoutX="311.0" layoutY="157.0" text="Personal Area">
+              <font>
+                  <Font size="24.0"/>
+              </font>
+          </Label>
+          <Label fx:id="surnameLabel" layoutX="191.0" layoutY="237.0" text="Surname: ">
+              <font>
+                  <Font size="14.0"/>
+              </font>
+          </Label>
+          <Label fx:id="usernameLabel" layoutX="556.0" layoutY="22.0" text="Username">
+              <font>
+                  <Font size="14.0"/>
+              </font>
+          </Label>
+          <Separator fx:id="upperSeparator" layoutY="205.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0"
+                     prefWidth="760.0"/>
+          <Label fx:id="preferencesLabel" layoutX="75.0" layoutY="310.0" text="Select your preferences:">
+              <font>
+                  <Font size="18.0"/>
+              </font>
+          </Label>
+          <Separator fx:id="lowerSeparator" layoutY="282.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3.0"
+                     prefWidth="760.0"/>
+          <CheckBox fx:id="airCheckBox" layoutX="79.0" layoutY="384.0" mnemonicParsing="false" text="Air Quality"/>
+          <CheckBox fx:id="qualityLifeCheckBox" layoutX="79.0" layoutY="415.0" mnemonicParsing="false"
+                    text="Quality of life"/>
+          <CheckBox fx:id="foreignersCheckBox" layoutX="310.0" layoutY="354.0" mnemonicParsing="false"
+                    text="Friendly for foreigners"/>
+          <CheckBox fx:id="healthcareCheckBox" layoutX="310.0" layoutY="384.0" mnemonicParsing="false"
+                    text="Healthcare"/>
+          <CheckBox fx:id="nightlifeCheckBox" layoutX="310.0" layoutY="415.0" mnemonicParsing="false" text="Nightlife"/>
+          <CheckBox fx:id="costCheckBox" layoutX="516.0" layoutY="354.0" mnemonicParsing="false" text="Cost"/>
+          <CheckBox fx:id="safetyCheckBox" layoutX="516.0" layoutY="384.0" mnemonicParsing="false" text="Safety"/>
+          <CheckBox fx:id="walkabilityCheckBox" layoutX="516.0" layoutY="415.0" mnemonicParsing="false"
+                    text="Walkability"/>
+          <CheckBox fx:id="wifiCheckBox" layoutX="79.0" layoutY="446.0" mnemonicParsing="false" text="Free wi-fi"/>
+          <CheckBox fx:id="englishCheckBox" layoutX="310.0" layoutY="446.0" mnemonicParsing="false"
+                    text="English speaking"/>
+          <Button fx:id="saveButton" layoutX="669.0" layoutY="487.0" mnemonicParsing="false" onAction="#savePreferences"
+                  prefHeight="27.0" prefWidth="59.0" text="Save" AnchorPane.leftAnchor="669.0"/>
+          <Label fx:id="emailLabel" layoutX="350.0" layoutY="238.0" text="Email: "/>
+          <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="281.0" layoutY="29.0" pickOnBounds="true"
+                     preserveRatio="true">
+              <image>
+                  <Image url="@images/personalArea.png"/>
+              </image>
+          </ImageView>
+          <HBox alignment="CENTER" layoutY="281.0" prefHeight="29.0" prefWidth="760.0">
+              <children>
+                  <Label fx:id="outcomeLabel" text="There's nothing to change" textFill="#045491"/>
+              </children>
+          </HBox>
+          <Label fx:id="ageLabel" layoutX="573.0" layoutY="238.0" text="Age: "/>
+          <Button fx:id="updateAgeButton" layoutX="657.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateAge"
+                  text="Update Age"/>
+          <Button fx:id="suggestedNomadButton" layoutX="477.0" layoutY="308.0" mnemonicParsing="false"
+                  onAction="#suggestedNomad" text="Suggested Nomads"/>
+          <TextField fx:id="ageField" layoutX="601.0" layoutY="233.0" prefHeight="27.0" prefWidth="49.0"/>
       </children>
     </AnchorPane>
   </children>
