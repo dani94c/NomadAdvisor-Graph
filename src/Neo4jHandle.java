@@ -1,5 +1,3 @@
-import java.io.IOException;
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +98,8 @@ public class Neo4jHandle {
         	}
         }
         return result;
-	
+    }
+    
  	// Transaction execution to find the list of preferences of a customer
  	private static List<String> matchPreferenceNodes(Transaction tx, String email) {
  		List<String> pref = new ArrayList<String>();
