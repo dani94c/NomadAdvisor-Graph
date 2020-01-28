@@ -49,10 +49,19 @@ public class Neo4jHandle {
     }
 
     // Transaction execution to find the number of customers that likes a certain preference
-    private static int countCustomersPreference(Transaction tx, String preference) {
-        StatementResult result = tx.run("MATCH (p:Preference {type: $type})<-[l:LIKES]-() RETURN COUNT(l)",
-                parameters("type", preference));
-        return result.single().get(0).asInt();
+    private static HashMap<String, Integer> countCustomersPreference(Transaction tx) {
+    	HashMap<String, Integer> result = new HashMap<String, Integer>();
+        StatementResult records = tx.run("MATCH (p:Preference)<-[r:LIKES]-() RETURN p.type AS type, COUNT(r) AS count");
+        while(records.hasNext()) {
+        	Record record = records.next();
+        	result.put(record.get("type").asString(), record.get("count").asInt());
+        }
+        for(Map.Entry<Utils.cityNames, String> attribute : Utils.cityAttributes.entrySet()) {
+        	if(!result.containsKey(attribute.getValue())) {
+        		result.put(attribute.getValue(), 0);
+        	}
+        }
+        return result;
     }
     
  	
@@ -78,17 +87,14 @@ public class Neo4jHandle {
 
     // For each city characteristics, computes the number of customers that have that preference
     public static HashMap<String, Integer> aggregateCustomersPreferences() {
-        HashMap<String, Integer> result = new HashMap<String, Integer>();
+        HashMap<String, Integer> result = null;
         try(Session session = driver.session()) {
-            for(Map.Entry<Utils.cityNames, String> attribute : Utils.cityAttributes.entrySet()) {
-                int count = session.readTransaction(new TransactionWork<Integer>() {
-                    @Override
-                    public Integer execute(Transaction transaction) {
-                        return countCustomersPreference(transaction, attribute.getValue());
-                    }
-                });
-                result.put(attribute.getValue(), count);
-            }
+            result = session.readTransaction(new TransactionWork<HashMap<String, Integer>>() {
+                @Override
+                public HashMap<String, Integer> execute(Transaction transaction) {
+                    return countCustomersPreference(transaction);
+                }
+            });
         }
         return result;
     }
