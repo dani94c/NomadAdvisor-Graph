@@ -92,7 +92,7 @@ public class PersonalAreaInterface {
         Customer customer = (Customer) nomadAdvisor.getUser();
         if (ageField.getText().equals(""))
             outcomeLabel.setText("You have to insert an age value in order to update it");
-        else if (ageField.getText().matches("^(?:1[01][0-9]|120|1[0-9]|[2-9][0-9])$") && (Integer.parseInt(ageField.getText()) != customer.getAge())) {
+        else if (ageField.getText().matches("^[0-9]+$") && (Integer.parseInt(ageField.getText()) != customer.getAge())) {
             outcomeLabel.setText(NomadHandler.updateAge(customer, Integer.parseInt(ageField.getText())));
         }
     }
@@ -161,7 +161,7 @@ public class PersonalAreaInterface {
     }
 
     private void setAgeLabel(int age) {
-        if (age == 0) {
+        if (age == -1) {
             outcomeLabel.setText("The age attribute is not available, please insert your age now");
             ageField.setText("");
         } else

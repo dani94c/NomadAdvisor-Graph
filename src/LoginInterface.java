@@ -65,8 +65,7 @@ public class LoginInterface {
 
     @FXML void registration(ActionEvent event) {
     	// takes values from the reg form
-    	//TODO check for age "^(?:1[01][0-9]|120|1[7-9]|[2-9][0-9])$"
-    	if(!(ageField.getText().matches("^-?\\d+$"))) {
+    	if(!(ageField.getText().matches("^[0-9]+$"))) {
     		System.out.println("Age not integer");
     		regNotificationMsg.setText("Unexpected value for Age field");
     	}

@@ -17,24 +17,26 @@ public class Neo4jHandle {
     }
 
     //Transaction execution to create a new customer
-	  private static Integer createCustomerNode(Transaction tx, Customer customer) {
-		tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
-				parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
-		System.out.println("Node added for customer's email: "+customer.getEmail());
-		return 1;
+	  private static Void createCustomerNode(Transaction tx, Customer customer) {
+			tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
+					parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
+			System.out.println("Node added for customer's email: "+customer.getEmail());
+			return null;
 	  }
 	
     //Insert a a new registered customer in the graph
     public static void addCustomer(Customer customer) {
-      try(Session session = driver.session()) {
-        session.writeTransaction(new TransactionWork<Integer>() {
-          @Override
-          public Integer execute(Transaction tx) {
-            return createCustomerNode(tx,customer);
-          }
-        });
-      }
-     }
+    	try(Session session = driver.session()) {
+    		session.writeTransaction(new TransactionWork<Void>() {
+	    		@Override
+	    		public Void execute(Transaction tx) {
+	    			return createCustomerNode(tx,customer);
+	    		}
+    		});
+    	}catch(Exception ex) {
+    		ex.printStackTrace();
+    	}
+    }
   
     //Transaction execution to update the customer's preferences
     private static void updateLikes(Transaction tx, Customer customer, String preference) {
@@ -46,28 +48,45 @@ public class Neo4jHandle {
     	tx.run("MATCH(c:Customer{email:$email})-[l:LIKES]->(p:Preference{type:$type}) DELETE l",
     			parameters("email",cust.getEmail(),"type",preference));
     }
+    
+    // Update the preferences of a specific customer
     public static Boolean updatePreferences(Customer customer,List<String> updatingPref, List<String> deletingPref ) {
-      try(Session session = driver.session()) {
-        return session.writeTransaction(new TransactionWork<Boolean>() {
-          @Override
-          public Boolean execute(Transaction tx) {
-        	deletingPref.forEach((d)-> deleteLikes(tx,customer,d));
-            updatingPref.forEach((u)->updateLikes(tx,customer,u));
-            return true;
-          }
-        });
-      }catch(ServiceUnavailableException sue) {
-    	  return false;
-      }
+    	try(Session session = driver.session()) {
+    		return session.writeTransaction(new TransactionWork<Boolean>() {
+    			@Override
+    			public Boolean execute(Transaction tx) {
+    				deletingPref.forEach((d)-> deleteLikes(tx,customer,d));
+    				updatingPref.forEach((u)->updateLikes(tx,customer,u));
+    				return true;
+    			}
+    		});
+	      }catch(ServiceUnavailableException sue) {
+	    	  return false;
+	      }catch(Exception ex) {
+	    	  ex.printStackTrace();
+	    	  return false;
+	      }
+    }
+    
+    private static Void updateAge(Transaction tx, Customer customer) {
+            tx.run("MATCH (c:Customer)\n" +
+                    "WHERE c.email = $email AND c.username = $username\n" +
+                    "SET c.age = $age", parameters("email", customer.getEmail(), "username", customer.getUsername(), "age", customer.getAge()));
+            return null;
     }
   
     // Method in order to update the Age field of the customer in the graph database
     public static void updateCustomerAge(Customer customer) {
-        try (Session session = driver.session()) {
-            session.run("MATCH (c:Customer)\n" +
-                    "WHERE c.email = $email AND c.username = $username\n" +
-                    "SET c.age = $age", parameters("email", customer.getEmail(), "username", customer.getUsername(), "age", customer.getAge()));
-        }
+    	try(Session session = driver.session()) {
+    		session.writeTransaction(new TransactionWork<Void>() {
+	    		@Override
+	    		public Void execute(Transaction tx) {
+	    			return updateAge(tx,customer);
+	    		}
+    		});
+    	}catch(Exception ex) {
+    		ex.printStackTrace();
+    	}
     }
 
     // Transaction method in order to retrieve the customers that have common preference of the passed customer
@@ -92,7 +111,10 @@ public class Neo4jHandle {
                     return matchCustomers(tx, customer);
                 }
             });
-        }
+        }catch(Exception ex) {
+			ex.printStackTrace();
+			return new ArrayList<Customer>();
+		}
     }
 
     // Transaction execution to find the number of customers that likes a certain preference
@@ -141,7 +163,9 @@ public class Neo4jHandle {
                     return countCustomersPreference(transaction);
                 }
             });
-        }
+        }catch(Exception ex) {
+			ex.printStackTrace();
+		}
         return result;
     }
 
@@ -158,7 +182,9 @@ public class Neo4jHandle {
                 });
                 result.put(attribute.getValue(), avgAge);
             }
-        }
+        }catch(Exception ex) {
+			ex.printStackTrace();
+		}
         return result;
     }
     
@@ -174,15 +200,11 @@ public class Neo4jHandle {
  		}
  	}
     
+ 	// Close the connection pool
     public static void finish() {
         if(driver != null) {
             driver.close();
             System.out.println("Closed connection with the Neo4j DB");
         }
     }
-    /*
-    public static void main(String[] args) {
-
-    }
-    */
 }
