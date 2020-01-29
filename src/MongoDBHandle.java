@@ -74,7 +74,7 @@ public class MongoDBHandle {
 				msg.append("Success!");
 				if(document.getString("role").equals("customer"))	// customer
 	    			return customer = new Customer(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword(),
-							document.getString("username"), document.getInteger("age", 0), (List<String>) document.get("preferences"));
+							document.getString("username"), document.getInteger("age", -1), (List<String>) document.get("preferences"));
 	    		else // employee
 	    			return employee = new Employee(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword());
 			}
@@ -279,22 +279,6 @@ public class MongoDBHandle {
         return true;
     }
 
-    // Personal Area
-    // Update customer preferences
-    public static boolean updatePreferences(Customer customer) {
-    	Document updateDoc = null;
-    	if(customer.getPreferences().size() == 0) // If there are no preferences, the field is removed
-    		updateDoc = new Document("$unset", new Document(Utils.PREFERENCES, 1));
-    	else
-    		updateDoc = new Document("$set", new Document(Utils.PREFERENCES, customer.getPreferences())); // Set the chosen preferences
-    	UpdateResult result = userCollection.updateOne(Filters.eq("email", customer.getEmail()), updateDoc);
-    	if(result.getModifiedCount() == 0) {
-    		System.out.println("Customer preferences update operation failed: There's nothing to change");
-    		return false;
-    	}
-        return true;
-    }
-
     // Employee Interface
     //retrieve all the registered customers
     public static List<Customer> selectCustomers() {
@@ -306,7 +290,7 @@ public class MongoDBHandle {
     			String name = document.getString("name")==null?"":document.getString("name");
 				String surname = document.getString("surname") == null ? "" : document.getString("surname");
 				Customer c = new Customer(name, surname, document.getString("email"), document.getString("password"),
-						document.getString("username"), 0, (List<String>) document.get("preferences"));
+						document.getString("username"), document.getInteger("age", -1), (List<String>) document.get("preferences"));
 				customers.add(c);
 			}
 		} catch (Exception ex) {

@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="primaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="760.0" style="-fx-background-color: #FFFFE0#FFFFE0;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginInterface">
+<AnchorPane fx:id="primaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="760.0" style="-fx-background-color: #FFFFE0#FFFFE0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginInterface">
    <children>
       <Separator fx:id="separator" layoutY="190.0" orientation="VERTICAL" prefHeight="376.0" prefWidth="760.0" />
       <Label fx:id="logLablel" layoutX="179.0" layoutY="191.0" text="Log In" AnchorPane.topAnchor="191.0" />
@@ -25,7 +25,7 @@
       <TextField fx:id="surnameField" layoutX="515.0" layoutY="288.0" promptText="Surname" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="288.0" />
       <TextField fx:id="ageField" layoutX="515.0" layoutY="332.0" promptText="Age" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="332.0" />
       <TextField fx:id="usernameField" layoutX="515.0" layoutY="372.0" promptText="Username" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="377.0" />
-      <TextField fx:id="emailRegField" layoutX="515.0" layoutY="418.0" prefHeight="25.0" prefWidth="149.0" promptText="Email" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="420.0" />
+      <TextField fx:id="emailRegField" layoutX="515.0" layoutY="419.0" prefHeight="27.0" prefWidth="167.0" promptText="Email" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="419.0" />
       <TextField fx:id="pwdRegField" layoutX="515.0" layoutY="461.0" promptText="Password" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="464.0" />
       <Button fx:id="regButton" layoutX="515.0" layoutY="506.0" mnemonicParsing="false" onAction="#registration" text="Register" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="506.0" />
       <Label fx:id="nameRegLabel" layoutX="417.0" layoutY="248.0" text="Name:" AnchorPane.leftAnchor="417.0" AnchorPane.topAnchor="248.0" />
