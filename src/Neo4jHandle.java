@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.neo4j.driver.v1.*;
+import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
+
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class Neo4jHandle {
@@ -35,18 +37,27 @@ public class Neo4jHandle {
      }
   
     //Transaction execution to update the customer's preferences
-    private static Boolean updateLikes(Transaction tx, Customer customer) {
-      return false;
+    private static void updateLikes(Transaction tx, Customer customer, String preference) {
+    	tx.run("MATCH(c:Customer{email:$email}) MATCH (p:Preference{type:$type}) MERGE (c)-[:LIKES]->(p)",
+    			parameters("email",customer.getEmail(),"type",preference));
     }
 
-    public static void updatePreferences(Customer customer ) {
+    private static void deleteLikes(Transaction tx, Customer cust, String preference ) {
+    	tx.run("MATCH(c:Customer{email:$email})-[l:LIKES]->(p:Preference{type:$type}) DELETE l",
+    			parameters("email",cust.getEmail(),"type",preference));
+    }
+    public static Boolean updatePreferences(Customer customer,List<String> updatingPref, List<String> deletingPref ) {
       try(Session session = driver.session()) {
-        session.writeTransaction(new TransactionWork<Boolean>() {
+        return session.writeTransaction(new TransactionWork<Boolean>() {
           @Override
           public Boolean execute(Transaction tx) {
-            return updateLikes(tx,customer);
+        	deletingPref.forEach((d)-> deleteLikes(tx,customer,d));
+            updatingPref.forEach((u)->updateLikes(tx,customer,u));
+            return true;
           }
         });
+      }catch(ServiceUnavailableException sue) {
+    	  return false;
       }
     }
   
