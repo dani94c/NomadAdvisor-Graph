@@ -48,6 +48,8 @@ public class Neo4jHandle {
     	tx.run("MATCH(c:Customer{email:$email})-[l:LIKES]->(p:Preference{type:$type}) DELETE l",
     			parameters("email",cust.getEmail(),"type",preference));
     }
+    
+    // Update the preferences of a specific customer
     public static Boolean updatePreferences(Customer customer,List<String> updatingPref, List<String> deletingPref ) {
     	try(Session session = driver.session()) {
     		return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -198,6 +200,7 @@ public class Neo4jHandle {
  		}
  	}
     
+ 	// Close the connection pool
     public static void finish() {
         if(driver != null) {
             driver.close();
