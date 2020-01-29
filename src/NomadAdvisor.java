@@ -82,22 +82,23 @@ public class NomadAdvisor extends Application {
 
     public void changeScene(String newScene) {
         switch (newScene) {
-            case "loginInterface":
-                this.stage.setScene(loginScene);
-                break;
-            case "personalAreaInterface":
-            	personalAreaInterface.initInterface();
-            	this.stage.setScene(personalAreaScene);
-            	break;
-            case "cityInterface":
-            	cityInterface.initInterface();
-            	this.stage.setScene(cityScene);
-            	break;
-            case "hotelInterface":
-            	hotelInterface.initInterface();
-            	this.stage.setScene(hotelScene);
-            	break;
-            case "employeeInterface":
+			case "loginInterface":
+				this.stage.setScene(loginScene);
+				break;
+			case "personalAreaInterface":
+				personalAreaInterface.initInterface();
+				this.stage.setScene(personalAreaScene);
+				personalAreaInterface.setParentStage(stage);
+				break;
+			case "cityInterface":
+				cityInterface.initInterface();
+				this.stage.setScene(cityScene);
+				break;
+			case "hotelInterface":
+				hotelInterface.initInterface();
+				this.stage.setScene(hotelScene);
+				break;
+			case "employeeInterface":
             	employeeInterface.initInterface();
             	this.stage.setScene(employeeScene);
             	employeeInterface.setParentStage(stage);
