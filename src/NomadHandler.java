@@ -186,7 +186,7 @@ public class NomadHandler {
 	}
 
 	// Computes the data to show in the pie charts
-	public static List<HashMap<String, Integer>> computePieChartsData() {
+	public static List<HashMap<String, Integer>> computeChartsData() {
 		List<HashMap<String, Integer>> pieChartsData = new ArrayList();
 		pieChartsData.add(MongoDBHandle.aggregateCitiesCharacteristics());
 		pieChartsData.add(Neo4jHandle.aggregateCustomersPreferences());

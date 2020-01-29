@@ -116,9 +116,9 @@ public class Neo4jHandle {
  	private static int getCharacteristicAges(Transaction tx, String preference) {
  		StatementResult result = tx.run("MATCH (p:Preference {type:$type})<-[:LIKES]-(customer) return avg(customer.age)",
  				parameters("type", preference));
- 		Double f = result.single().get("avg(customer.age)", 0.0);
-			System.out.println("preference avg age: "+preference+" "+f);
-			return (int) Math.round(f);
+ 		Double avgAge = result.single().get("avg(customer.age)", 0.0);
+			//System.out.println("preference avg age: "+preference+" "+avgAge);
+			return (int) Math.round(avgAge);
  	}
 
     // For each city characteristics, computes the number of customers that have that preference
