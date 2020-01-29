@@ -18,38 +18,38 @@ public class Neo4jHandle {
 
     //Transaction execution to create a new customer
 	  private static Integer createCustomerNode(Transaction tx, Customer customer) {
-		tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
-				parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
-		System.out.println("Node added for customer's email: "+customer.getEmail());
-		return 1;
+			tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
+					parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
+			System.out.println("Node added for customer's email: "+customer.getEmail());
+			return 1;
 	  }
 	
     //Insert a a new registered customer in the graph
     public static void addCustomer(Customer customer) {
-      try(Session session = driver.session()) {
-        session.writeTransaction(new TransactionWork<Integer>() {
-          @Override
-          public Integer execute(Transaction tx) {
-            return createCustomerNode(tx,customer);
-          }
-        });
-      }
-     }
+    	try(Session session = driver.session()) {
+    		session.writeTransaction(new TransactionWork<Integer>() {
+	    		@Override
+	    		public Integer execute(Transaction tx) {
+	    			return createCustomerNode(tx,customer);
+	    		}
+    		});
+    	}
+    }
   
     //Transaction execution to update the customer's preferences
     private static Boolean updateLikes(Transaction tx, Customer customer) {
-      return false;
+    	return false;
     }
 
     public static void updatePreferences(Customer customer ) {
-      try(Session session = driver.session()) {
-        session.writeTransaction(new TransactionWork<Boolean>() {
-          @Override
-          public Boolean execute(Transaction tx) {
-            return updateLikes(tx,customer);
-          }
-        });
-      }
+    	try(Session session = driver.session()) {
+    		session.writeTransaction(new TransactionWork<Boolean>() {
+    			@Override
+    			public Boolean execute(Transaction tx) {
+    				return updateLikes(tx,customer);
+    			}
+    		});
+    	}
     }
   
     // Method in order to update the Age field of the customer in the graph database
@@ -83,7 +83,10 @@ public class Neo4jHandle {
                     return matchCustomers(tx, customer);
                 }
             });
-        }
+        }catch(Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
     }
 
     // Transaction execution to find the number of customers that likes a certain preference
@@ -132,7 +135,9 @@ public class Neo4jHandle {
                     return countCustomersPreference(transaction);
                 }
             });
-        }
+        }catch(Exception ex) {
+			ex.printStackTrace();
+		}
         return result;
     }
 
@@ -149,7 +154,9 @@ public class Neo4jHandle {
                 });
                 result.put(attribute.getValue(), avgAge);
             }
-        }
+        }catch(Exception ex) {
+			ex.printStackTrace();
+		}
         return result;
     }
     
@@ -171,9 +178,4 @@ public class Neo4jHandle {
             System.out.println("Closed connection with the Neo4j DB");
         }
     }
-    /*
-    public static void main(String[] args) {
-
-    }
-    */
 }
