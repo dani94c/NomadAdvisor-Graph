@@ -161,12 +161,15 @@ public class NomadHandler {
 
 	// Updates the customer preferences and return the message to show in the interface
 	public static String updatePreferences(Customer customer, List<String> preferences) {
-		customer.setPreferences(preferences);
+		List<String> toDelete = new ArrayList<String>(customer.getPreferences());
+		toDelete.removeAll(preferences);
+
 		String result;
-		if(MongoDBHandle.updatePreferences(customer)) {
+		if(Neo4jHandle.updatePreferences(customer, preferences, toDelete)) {
 			result = "Success!!!";
+			customer.setPreferences(preferences);
 		} else {
-			result = "There's nothing to change";
+			result = "OOps! Something went wrong, try later!";
 		}
 		return result;
 	}
