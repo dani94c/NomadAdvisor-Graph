@@ -56,7 +56,7 @@ public class StatisticsInterface {
     }
     
  // Creates the slices of the pie chart using the key of the map as label and the value of the map as value of the slice
-    private Series<String,Integer> setPieChartData2(HashMap<String, Integer> bars) {
+    private Series<String,Integer> setBarChartData(HashMap<String, Integer> bars) {
     	Series<String,Integer> barChartData = new XYChart.Series();
     	for(Map.Entry<String, Integer> bar : bars.entrySet()) {
     		if(bar.getKey() == Utils.cityAttributes.get(Utils.cityNames.TEMPERATURE))
@@ -98,22 +98,29 @@ public class StatisticsInterface {
     }
     
     // Get the data from the map and inserts them in the cities pie chart
-    private void setAverageAgePieChart(HashMap<String, Integer> bars) {
-    	Series<String, Integer> pieChartData = setPieChartData2(bars);
+    private void setAverageAgeBarChart(HashMap<String, Integer> bars) {
+    	Series<String, Integer> pieChartData = setBarChartData(bars);
     	avgAgeChart.getData().add(pieChartData);
     }
     
     // Computes the data to show and inserts them in the pie charts
     public void initInterface() {
-    	outcomeLabel.setText("");
-    	List<HashMap<String, Integer>> pieChartsData = NomadHandler.computePieChartsData();
-    	if(pieChartsData == null) {
+    	//this.avgAgeChart.getData().clear();
+    	List<HashMap<String, Integer>> chartsData = NomadHandler.computeChartsData();
+    	if(chartsData == null) {
     		outcomeLabel.setText("An error occurred during data loading");
     		return;
     	}
-    	this.setCityPieChart(pieChartsData.get(0));
-    	this.setCustomerPieChart(pieChartsData.get(1));
-    	this.setAverageAgePieChart(pieChartsData.get(2));
+    	this.setCityPieChart(chartsData.get(0));
+    	this.setCustomerPieChart(chartsData.get(1));
+    	this.setAverageAgeBarChart(chartsData.get(2));
+    }
+    
+    public void cleanInt() {
+    	outcomeLabel.setText("");
+    	this.avgAgeChart.getData().clear();
+    	this.citiesPieChart.getData().clear();
+    	this.customerPieChart.getData().clear();
     }
 
 }
