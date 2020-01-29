@@ -97,6 +97,12 @@ public class PersonalAreaInterface {
         }
     }
 
+    // Retrieve the instance of the stage related to this interface controller, handled by NomadAdvisor,
+    //in order to be able to set it as the owner/parent of the popups interfaces.
+    public void setParentStage(Stage stage) {
+        this.parentPersonalAreaStage = stage;
+    }
+
     @FXML
         // The SuggestedNomad popup will be showed, the interface stage is initialized
     void suggestedNomad(ActionEvent event) {
@@ -106,8 +112,9 @@ public class PersonalAreaInterface {
         popupStage.initOwner(parentPersonalAreaStage);
         /*
         popupStage.setOnCloseRequest((WindowEvent we) -> {
+
         });
-        */
+         */
         popupStage.show();
     }
 
