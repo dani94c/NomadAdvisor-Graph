@@ -73,8 +73,8 @@ public class MongoDBHandle {
 			if(document.getString("role") != null) {
 				msg.append("Success!");
 				if(document.getString("role").equals("customer"))	// customer
-	    			return customer = new Customer(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword(), 
-	    					document.getString("username"),0, null);
+	    			return customer = new Customer(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword(),
+							document.getString("username"), document.getInteger("age", 0), (List<String>) document.get("preferences"));
 	    		else // employee
 	    			return employee = new Employee(document.getString("name"), document.getString("surname"), user.getEmail(), user.getPassword());
 			}
@@ -301,27 +301,41 @@ public class MongoDBHandle {
     		while(cursor.hasNext()) {
     			Document document = cursor.next();
     			String name = document.getString("name")==null?"":document.getString("name");
-    			String surname = document.getString("surname")==null?"":document.getString("surname");
-                Customer c = new Customer(name, surname, document.getString("email"), document.getString("password"), 
-    					document.getString("username"),0, (List<String>) document.get("preferences"));
-                customers.add(c);
-    		}
-    	}catch(Exception ex) {
-    		System.out.println("Error: "+ex);
-    		return null;
-    	}
-        return customers;
-    }
+				String surname = document.getString("surname") == null ? "" : document.getString("surname");
+				Customer c = new Customer(name, surname, document.getString("email"), document.getString("password"),
+						document.getString("username"), 0, (List<String>) document.get("preferences"));
+				customers.add(c);
+			}
+		} catch (Exception ex) {
+			System.out.println("Error: " + ex);
+			return null;
+		}
+		return customers;
+	}
 
-    // Delete also hotels and reviews connected
-    public static boolean deleteCity(City city) {
-    	List<Hotel> hotels = selectHotels(city.getCityName(), city.getCountryName());
-    	Document cityId = new Document(
+	/* Updates the Age attribute of the customer in the database
+	 *	0 -> Update operation successful
+	 *	1 -> Update operation failed
+	 */
+	public static int updateCustomerAge(Customer customer) {
+		Document updatedField = new Document("age", customer.getAge());
+		UpdateResult result = userCollection.updateOne(Filters.eq("email", customer.getEmail()), new Document("$set", updatedField));
+		if (result.getModifiedCount() == 0) {
+			System.out.println("Customer update operation failed");
+			return 1;
+		}
+		return 0;
+	}
+
+	// Delete also hotels and reviews connected
+	public static boolean deleteCity(City city) {
+		List<Hotel> hotels = selectHotels(city.getCityName(), city.getCountryName());
+		Document cityId = new Document(
 				"city", city.getCityName())
-				.append("country",city.getCountryName());
-    	for(int i=0; i<hotels.size(); i++) {
-    		if(!deleteHotel( hotels.get(i).getHotelName(),city.getCityName(), city.getCountryName()))
-    			return false;
+				.append("country", city.getCountryName());
+		for (int i = 0; i < hotels.size(); i++) {
+			if (!deleteHotel(hotels.get(i).getHotelName(), city.getCityName(), city.getCountryName()))
+				return false;
     	}
     	// If no errors occurs is possible to delete the city
     	try {
@@ -380,8 +394,8 @@ public class MongoDBHandle {
     	}
         return 0;
     }
-    
-    /* Update a city. 
+
+	/* Update a city.
   	 * Return 0 -> everything is ok
   	 * Return 1 -> object already exists or nothing has been modified
   	 * Return 2 -> DB error
