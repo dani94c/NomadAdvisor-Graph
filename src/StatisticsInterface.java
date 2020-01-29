@@ -105,7 +105,7 @@ public class StatisticsInterface {
     
     // Computes the data to show and inserts them in the pie charts
     public void initInterface() {
-    	//this.avgAgeChart.getData().clear();
+    	outcomeLabel.setText("");
     	List<HashMap<String, Integer>> chartsData = NomadHandler.computeChartsData();
     	if(chartsData == null) {
     		outcomeLabel.setText("An error occurred during data loading");
