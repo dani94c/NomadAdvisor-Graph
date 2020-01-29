@@ -1,19 +1,57 @@
+import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.neo4j.driver.v1.*;
-
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class Neo4jHandle {
+
     private static Driver driver;
 
     public static void openConnection() {
         driver = DBConnection.getInstance().driver;
     }
 
+    //Transaction execution to create a new customer
+	  private static Integer createCustomerNode(Transaction tx, Customer customer) {
+		tx.run("CREATE (c:Customer {email: $email, age: $age, username: $username})", 
+				parameters("email",customer.getEmail(), "age",customer.getAge(),"username",customer.getUsername()));
+		System.out.println("Node added for customer's email: "+customer.getEmail());
+		return 1;
+	  }
+	
+    //Insert a a new registered customer in the graph
+    public static void addCustomer(Customer customer) {
+      try(Session session = driver.session()) {
+        session.writeTransaction(new TransactionWork<Integer>() {
+          @Override
+          public Integer execute(Transaction tx) {
+            return createCustomerNode(tx,customer);
+          }
+        });
+      }
+     }
+  
+    //Transaction execution to update the customer's preferences
+    private static Boolean updateLikes(Transaction tx, Customer customer) {
+      return false;
+    }
+
+    public static void updatePreferences(Customer customer ) {
+      try(Session session = driver.session()) {
+        session.writeTransaction(new TransactionWork<Boolean>() {
+          @Override
+          public Boolean execute(Transaction tx) {
+            return updateLikes(tx,customer);
+          }
+        });
+      }
+    }
+  
     // Method in order to update the Age field of the customer in the graph database
     public static void updateCustomerAge(Customer customer) {
         try (Session session = driver.session()) {
@@ -49,13 +87,21 @@ public class Neo4jHandle {
     }
 
     // Transaction execution to find the number of customers that likes a certain preference
-    private static int countCustomersPreference(Transaction tx, String preference) {
-        StatementResult result = tx.run("MATCH (p:Preference {type: $type})<-[l:LIKES]-() RETURN COUNT(l)",
-                parameters("type", preference));
-        return result.single().get(0).asInt();
+    private static HashMap<String, Integer> countCustomersPreference(Transaction tx) {
+    	HashMap<String, Integer> result = new HashMap<String, Integer>();
+        StatementResult records = tx.run("MATCH (p:Preference)<-[r:LIKES]-() RETURN p.type AS type, COUNT(r) AS count");
+        while(records.hasNext()) {
+        	Record record = records.next();
+        	result.put(record.get("type").asString(), record.get("count").asInt());
+        }
+        for(Map.Entry<Utils.cityNames, String> attribute : Utils.cityAttributes.entrySet()) {
+        	if(!result.containsKey(attribute.getValue())) {
+        		result.put(attribute.getValue(), 0);
+        	}
+        }
+        return result;
     }
-    
- 	
+	
  	// Transaction execution to find the list of preferences of a customer
  	private static List<String> matchPreferenceNodes(Transaction tx, String email) {
  		List<String> pref = new ArrayList<String>();
@@ -71,24 +117,21 @@ public class Neo4jHandle {
  	private static int getCharacteristicAges(Transaction tx, String preference) {
  		StatementResult result = tx.run("MATCH (p:Preference {type:$type})<-[:LIKES]-(customer) return avg(customer.age)",
  				parameters("type", preference));
- 		Double f = result.single().get("avg(customer.age)", 0.0);
-			System.out.println("preference avg age: "+preference+" "+f);
-			return (int) Math.round(f);
+ 		Double avgAge = result.single().get("avg(customer.age)", 0.0);
+			//System.out.println("preference avg age: "+preference+" "+avgAge);
+			return (int) Math.round(avgAge);
  	}
 
     // For each city characteristics, computes the number of customers that have that preference
     public static HashMap<String, Integer> aggregateCustomersPreferences() {
-        HashMap<String, Integer> result = new HashMap<String, Integer>();
+        HashMap<String, Integer> result = null;
         try(Session session = driver.session()) {
-            for(Map.Entry<Utils.cityNames, String> attribute : Utils.cityAttributes.entrySet()) {
-                int count = session.readTransaction(new TransactionWork<Integer>() {
-                    @Override
-                    public Integer execute(Transaction transaction) {
-                        return countCustomersPreference(transaction, attribute.getValue());
-                    }
-                });
-                result.put(attribute.getValue(), count);
-            }
+            result = session.readTransaction(new TransactionWork<HashMap<String, Integer>>() {
+                @Override
+                public HashMap<String, Integer> execute(Transaction transaction) {
+                    return countCustomersPreference(transaction);
+                }
+            });
         }
         return result;
     }

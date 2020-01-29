@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -95,6 +96,7 @@ public class EmployeeInterface {
     
     // Initialize all the fxml elements in the interface and the popup interfaces handled by this interface
     @FXML private void initialize() {
+    	
     	chooseView.setItems(viewList);
     	initializeCustomerTable();
     	initializeCityTable();
@@ -304,12 +306,15 @@ public class EmployeeInterface {
     // Open the statistics interface as a popup
     @FXML void showStatistics(ActionEvent event) {
     	Stage popupStage = new Stage();
-    	popupStage.setScene(statScene);
     	// Set this EmployeeInterface as Owner of the popup stage so that 
     	//closing the parent (owner) also the children are closed with it
     	popupStage.initOwner(parentEmployeeStage);
+    	popupStage.setOnCloseRequest((WindowEvent we) -> {
+    		statInterface.cleanInt();
+        	
+        });
+    	popupStage.setScene(statScene);
     	statInterface.initInterface();
-
     	popupStage.show();
     }
     

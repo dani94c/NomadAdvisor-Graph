@@ -1,6 +1,10 @@
+import java.util.concurrent.TimeUnit;
+
 import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Config;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
+import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -20,7 +24,12 @@ public class DBConnection {
         mongoClient = MongoClients.create("mongodb://" + user + ":" + password + "@" + replica1
         		+ "," + replica2 + "," + replica3 + "/?authSource=" + database);
         String uriNeo4j = "bolt://localhost:7687";
-        driver = GraphDatabase.driver(uriNeo4j, AuthTokens.basic(user, password));
+        Config config = Config.builder()
+                .withMaxTransactionRetryTime( 60, TimeUnit.SECONDS)
+                .build();
+        
+        driver = GraphDatabase.driver(uriNeo4j, AuthTokens.basic(user, password), config);
+        
     }
 
     public static DBConnection getInstance() {

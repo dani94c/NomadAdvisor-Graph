@@ -31,6 +31,8 @@ public class LoginInterface {
     @FXML private TextField nameField;
     @FXML private Label surnameLabel;
     @FXML private TextField surnameField;
+    @FXML private Label ageLabel;
+    @FXML private TextField ageField;
     @FXML private Label usernameLabel;
     @FXML private TextField usernameField;
     @FXML private Label emailRegLabel;
@@ -63,19 +65,28 @@ public class LoginInterface {
 
     @FXML void registration(ActionEvent event) {
     	// takes values from the reg form
-    	Customer customer = new Customer(nameField.getText().trim(), surnameField.getText().trim(), 
-    			emailRegField.getText().trim(), Utils.cryptPwd(pwdRegField.getText()),usernameField.getText().trim(),0,null);
-    	System.out.println("Registration form fields:"+" name: "+ nameField.getText().trim()+" surname: "+
-    			surnameField.getText().trim()+" email: "+emailRegField.getText().trim() +
-    			 " pwd crypt: "+Utils.cryptPwd(pwdRegField.getText())+" pwd: "+pwdRegField.getText()+" username: "+usernameField.getText().trim());
-    	regNotificationMsg.setText(NomadHandler.createCustomer(customer));
-    	if(regNotificationMsg.getText().equals("Success!"))
-    		clearRegFields();
+    	//TODO check for age "^(?:1[01][0-9]|120|1[7-9]|[2-9][0-9])$"
+    	if(!(ageField.getText().matches("^-?\\d+$"))) {
+    		System.out.println("Age not integer");
+    		regNotificationMsg.setText("Unexpected value for Age field");
+    	}
+    	else {
+    		int age = Integer.parseInt(ageField.getText().trim());
+	    	Customer customer = new Customer(nameField.getText().trim(), surnameField.getText().trim(), 
+	    			emailRegField.getText().trim(), Utils.cryptPwd(pwdRegField.getText()),usernameField.getText().trim(),age,null);
+	    	System.out.println("Registration form fields:"+" name: "+ nameField.getText().trim()+" surname: "+
+	    			surnameField.getText().trim()+"age: "+ageField.getText().trim()+" email: "+emailRegField.getText().trim() +
+	    			 " pwd crypt: "+Utils.cryptPwd(pwdRegField.getText())+" pwd: "+pwdRegField.getText()+" username: "+usernameField.getText().trim());
+	    	regNotificationMsg.setText(NomadHandler.createCustomer(customer));
+	    	if(regNotificationMsg.getText().equals("Success!"))
+	    		clearRegFields();
+    	}
     }
     
     private void clearRegFields() {
     	nameField.clear();
     	surnameField.clear();
+    	ageField.clear();
     	emailRegField.clear();
     	pwdRegField.clear();
     	usernameField.clear();
