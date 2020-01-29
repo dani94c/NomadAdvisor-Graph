@@ -100,6 +100,7 @@ public class Neo4jHandle {
         	}
         }
         return result;
+    }
 	
  	// Transaction execution to find the list of preferences of a customer
  	private static List<String> matchPreferenceNodes(Transaction tx, String email) {
