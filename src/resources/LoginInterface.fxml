@@ -23,12 +23,14 @@
       <Button fx:id="logButton" layoutX="106.0" layoutY="359.0" mnemonicParsing="false" onAction="#login" text="Log In" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="359.0" />
       <TextField fx:id="nameField" layoutX="515.0" layoutY="243.0" promptText="Name" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="243.0" />
       <TextField fx:id="surnameField" layoutX="515.0" layoutY="288.0" promptText="Surname" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="288.0" />
-      <TextField fx:id="usernameField" layoutX="515.0" layoutY="372.0" promptText="Username" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="372.0" />
-      <TextField fx:id="emailRegField" layoutX="515.0" layoutY="418.0" promptText="Email" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="418.0" />
-      <TextField fx:id="pwdRegField" layoutX="515.0" layoutY="461.0" promptText="Password" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="461.0" />
+      <TextField fx:id="ageField" layoutX="515.0" layoutY="332.0" promptText="Age" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="332.0" />
+      <TextField fx:id="usernameField" layoutX="515.0" layoutY="372.0" promptText="Username" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="377.0" />
+      <TextField fx:id="emailRegField" layoutX="515.0" layoutY="418.0" prefHeight="25.0" prefWidth="149.0" promptText="Email" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="420.0" />
+      <TextField fx:id="pwdRegField" layoutX="515.0" layoutY="461.0" promptText="Password" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="464.0" />
       <Button fx:id="regButton" layoutX="515.0" layoutY="506.0" mnemonicParsing="false" onAction="#registration" text="Register" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="506.0" />
       <Label fx:id="nameRegLabel" layoutX="417.0" layoutY="248.0" text="Name:" AnchorPane.leftAnchor="417.0" AnchorPane.topAnchor="248.0" />
       <Label fx:id="surnameLabel" layoutX="416.0" layoutY="292.0" text="Surname:" AnchorPane.leftAnchor="416.0" AnchorPane.topAnchor="292.0" />
+      <Label fx:id="ageLabel" layoutX="416.0" layoutY="336.0" text="Age:" />
       <Label fx:id="usernameLabel" layoutX="417.0" layoutY="376.0" text="Username:" AnchorPane.leftAnchor="417.0" AnchorPane.topAnchor="376.0" />
       <Label fx:id="emailRegLabel" layoutX="419.0" layoutY="422.0" text="Email:" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="422.0" />
       <Label fx:id="pwdRegLabel" layoutX="418.0" layoutY="465.0" text="Password:" AnchorPane.leftAnchor="418.0" AnchorPane.topAnchor="465.0" />
@@ -47,7 +49,5 @@
             <Font name="Comic Sans MS" size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="ageField" layoutX="515.0" layoutY="332.0" promptText="Age" />
-      <Label fx:id="ageLabel" layoutX="416.0" layoutY="336.0" text="Age:" />
    </children>
 </AnchorPane>

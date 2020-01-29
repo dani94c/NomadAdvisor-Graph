@@ -98,6 +98,7 @@ public class MongoDBHandle {
     	Document doc = new Document("role",customer.getRole())
     			.append("name", customer.getName())
     			.append("surname", customer.getSurname())
+    			.append("age", customer.getAge())
     			.append("email", customer.getEmail())
     			.append("password", customer.getPassword())
     			.append("username", customer.getUsername());

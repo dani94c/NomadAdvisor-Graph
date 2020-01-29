@@ -21,11 +21,17 @@ public class DBConnection {
     	String replica1 = "127.0.0.1:27017";
     	String replica2 = "127.0.0.1:27018";
     	String replica3 = "127.0.0.1:27019";
+    	//Parameter used to set the MaxTransactionRetryTime
+    	int retryTime = 30;
+    	
         mongoClient = MongoClients.create("mongodb://" + user + ":" + password + "@" + replica1
         		+ "," + replica2 + "," + replica3 + "/?authSource=" + database);
         String uriNeo4j = "bolt://localhost:7687";
+        
+        //Config section used to handle the retry Capability of the Transaction Functions.
+        //By default the MaxTransactionRetryTime is set to 30s
         Config config = Config.builder()
-                .withMaxTransactionRetryTime( 60, TimeUnit.SECONDS)
+                .withMaxTransactionRetryTime( retryTime, TimeUnit.SECONDS)
                 .build();
         
         driver = GraphDatabase.driver(uriNeo4j, AuthTokens.basic(user, password), config);
