@@ -110,11 +110,6 @@ public class PersonalAreaInterface {
         popupStage.setScene(suggNomadsScene);
         suggNomads.initInterface();
         popupStage.initOwner(parentPersonalAreaStage);
-        /*
-        popupStage.setOnCloseRequest((WindowEvent we) -> {
-
-        });
-         */
         popupStage.show();
     }
 
