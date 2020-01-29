@@ -273,7 +273,9 @@ public class MongoDBHandle {
         } catch (MongoWriteException ex) {
             ex.printStackTrace();
             return false;
-        }
+        } catch(Exception ex) {
+			ex.printStackTrace();
+		}
         return true;
     }
 
@@ -292,7 +294,7 @@ public class MongoDBHandle {
     	}
         return true;
     }
-  
+
     // Employee Interface
     //retrieve all the registered customers
     public static List<Customer> selectCustomers() {
@@ -320,11 +322,17 @@ public class MongoDBHandle {
 	 */
 	public static int updateCustomerAge(Customer customer) {
 		Document updatedField = new Document("age", customer.getAge());
-		UpdateResult result = userCollection.updateOne(Filters.eq("email", customer.getEmail()), new Document("$set", updatedField));
-		if (result.getModifiedCount() == 0) {
-			System.out.println("Customer update operation failed");
+		try {
+			UpdateResult result = userCollection.updateOne(Filters.eq("email", customer.getEmail()), new Document("$set", updatedField));
+			if (result.getModifiedCount() == 0) {
+				System.out.println("Customer update operation failed");
+				return 1;
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
 			return 1;
 		}
+		
 		return 0;
 	}
 
@@ -345,6 +353,8 @@ public class MongoDBHandle {
 		}catch(MongoWriteException e) {
 			System.out.println("Delete operation interrupted");
 			return false;
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
     	return true;
     }
@@ -358,18 +368,22 @@ public class MongoDBHandle {
 		try {
 			DeleteResult deleteResult = reviewCollection.deleteMany(Filters.eq("hotelId",hotelId));
 			System.out.println("For the hotel "+hotelName+" # of reviews deleted: "+deleteResult.getDeletedCount());
-			}catch(MongoWriteException e) {
-				System.out.println("Delete operation interrupted");
-				return false;
+		}catch(MongoWriteException e) {
+			System.out.println("Delete operation interrupted");
+			return false;
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
 		// check for the correct deletion of the hotel
 		try {
 			DeleteResult deleteResult = hotelCollection.deleteOne(Filters.eq("_id",hotelId));
 			System.out.println("Result of deletion of hotel "+hotelName+" is: "+deleteResult.getDeletedCount());
-			}catch(MongoWriteException e) {
-				System.out.println("Delete operation interrupted");
-				return false;
-			}
+		}catch(MongoWriteException e) {
+			System.out.println("Delete operation interrupted");
+			return false;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		return true;
     }
 
@@ -408,21 +422,20 @@ public class MongoDBHandle {
     	Document updatedFields = new Document();
     	for(Map.Entry<String,Integer> attribute: city.getHashedCharacteristics().entrySet()) 
     		updatedFields.append(attribute.getKey(), attribute.getValue());
-    	UpdateResult result = cityCollection.updateOne(Filters.eq("_id", id), new Document("$set", updatedFields));
-    	if(result.getMatchedCount() == 0) {
-    		System.out.println("City update operation failed: The city does not exists");
-    		return 2;
+    	try {
+    		UpdateResult result = cityCollection.updateOne(Filters.eq("_id", id), new Document("$set", updatedFields));
+        	if(result.getMatchedCount() == 0) {
+        		System.out.println("City update operation failed: The city does not exists");
+        		return 2;
+        	}
+        	else if(result.getModifiedCount() == 0) {
+        		System.out.println("City update operation failed: there's nothing to change");
+        		return 1;
+        	}
+    	}catch(Exception ex) {
+    		ex.printStackTrace();
     	}
-    	else if(result.getModifiedCount() == 0) {
-    		System.out.println("City update operation failed: there's nothing to change");
-    		return 1;
-    	}
-    	
         return 0;
-    }
-
-    public static boolean deleteHotel(Hotel hotel) {
-        return false;
     }
 
     /*
@@ -461,10 +474,14 @@ public class MongoDBHandle {
     	Document updatedFields = new Document("address", hotel.getAddress()); // Fields to update
     	if(hotel.getWebsite() != null)
     		updatedFields.append("websites", hotel.getWebsite());
-    	UpdateResult result = hotelCollection.updateOne(Filters.eq("_id", id), new Document("$set", updatedFields));
-    	if(result.getModifiedCount() == 0) {
-    		System.out.println("Hotel update operation failed: There's nothing to change");
-    		return 2;
+    	try {
+    		UpdateResult result = hotelCollection.updateOne(Filters.eq("_id", id), new Document("$set", updatedFields));
+        	if(result.getModifiedCount() == 0) {
+        		System.out.println("Hotel update operation failed: There's nothing to change");
+        		return 2;
+        	}
+    	}catch(Exception ex) {
+    		ex.printStackTrace();
     	}
         return 0;
     }

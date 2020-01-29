@@ -65,7 +65,8 @@ public class NomadHandler {
 
     // Calls the database handler in order to retrieve the suggested Customers based on the preferences
     public static List<Customer> SuggestedCustomers(Customer customer) {
-        return Neo4jHandle.retrieveSuggestedCustomers(customer);
+       // return Neo4jHandle.retrieveSuggestedCustomers(customer);
+    	return null;
     }
 
     // Calls the database handler in order to insert a new City and returns a notification message to the interface
