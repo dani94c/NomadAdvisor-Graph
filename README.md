@@ -5,7 +5,7 @@ It's the same application of the former repository [NomadAdvisor](https://github
 ## Assignment
 The workgroup must design a complete application which manages data that can be stored in a graph-based DB.
 
-### Costrains 
+### Costraints 
 * CRUD operation must be implemented
 * A couple of typical “on-graph” queries, must be defined (both domain-specific queries and graph-centric queries.).
 * Some administration use cases must be defined
