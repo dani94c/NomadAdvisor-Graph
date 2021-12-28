@@ -14,4 +14,4 @@ The workgroup must design a complete application which manages data that can be 
 For more details regarding the project, you can consult the [official documentation.](/docs/documentation.pdf)
 
 ## Credits
-This application has been developed by D. Comola, E. Petrangeli, C. Aparo, L. Fontanelli as part of the Large Scale and Multistructured Databases course for the MSc in Computer Engineering @ Univerisity of Pisa in 2018.
+This application has been developed by D. Comola, E. Petrangeli, C. Aparo, L. Fontanelli as part of the Large Scale and Multistructured Databases course for the MSc in Computer Engineering @ Univerisity of Pisa in 2019.
